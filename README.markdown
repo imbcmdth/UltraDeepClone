@@ -4,7 +4,7 @@ The last deep-clone implementation you will *ever* need!
 
 Features:
 
-* Clones (almost) everything: *functions*, *objects*, *arrays*, *primitives* (*numbers*, *strings*, *booleans*), *regexp*, *dates* and even *null* and *undefined*!
+* Clones (almost\*) everything: *functions*, *objects*, *arrays*, *regexp*, *dates*, *numbers*, *strings*, *booleans*, and even *null* and *undefined*!
 
 * Handles cycles - objects that contain references to themselves or a parent object.
 
@@ -50,9 +50,11 @@ require(["UltraDeepClone"], function(UltraDeepClone) {
 var newObject = UltraDeepClone(oldObject); 
 ````
 
-## Caveats
+## \*Note
 
-This will not clone *constructed* objects properly. Objects built using a constructor function will be cloned as well as possible but the values passed into the 
+This will **not** clone *constructed* objects properly. An object built with a constructor function can have hidden state (within the closure) that simply can not be recovered. Also since the value of the arguments passed to the constructor can not be recovered, we can't reconstruct a similar object.
+
+Therefore, objects built using a constructor function will be cloned as well as possible and will have the same properties but they will probably **not** work correctly!
 
 ## License - MIT
 
