@@ -15,13 +15,13 @@ Features:
 For *Node.js*, use `npm`:
 
 ````console
-npm install UltraDeepClone
+npm install udc
 ````
 
 ..then `require` UltraDeepClone:
 
 ````javascript
-var UltraDeepClone = require('UltraDeepClone');
+var UltraDeepClone = require('udc');
 ````
 
 ### In the browser, traditional
@@ -29,7 +29,7 @@ var UltraDeepClone = require('UltraDeepClone');
 For the *browser*, add the following to your pages:
 
 ````html
-<script src="UltraDeepClone/index.js"></script>
+<script src="udc/index.js"></script>
 ````
 
 And the global function `UltraDeepClone` will be available.
@@ -39,7 +39,7 @@ And the global function `UltraDeepClone` will be available.
 ...Or using AMD in the browser:
 
 ````javascript
-require(["UltraDeepClone"], function(UltraDeepClone) {
+require(["udc"], function(UltraDeepClone) {
 	// ...
 });
 ````

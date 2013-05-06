@@ -1,14 +1,16 @@
 {
-  "name": "UltraDeepClone",
+  "name": "udc",
   "version": "0.0.1",
-  "description": "Complete (as possible) deep clone algorithm that can clone objects with cycles.",
+  "description": "UltraDeepClone - A complete (as possible) deep-clone algorithm that can clone objects with cycles.",
   "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/imbcmdth/UltraDeepClone.git"
   },
   "keywords": [
+    "ultradeepclone",
     "clone",
+    "copy",
     "cycles",
     "deepclone",
     "deep-clone",
