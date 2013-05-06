@@ -90,7 +90,7 @@
 			};
 		}
 
-		return function _ultraDeepCopy(source) {
+		return function _ultraDeepClone(source) {
 
 			var thingStack = [],
 				copyStack = [];
