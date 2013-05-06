@@ -1,6 +1,6 @@
 {
   "name": "udc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "UltraDeepClone - A complete (as possible) deep-clone algorithm that can clone objects with cycles.",
   "main": "udc.js",
   "repository": {

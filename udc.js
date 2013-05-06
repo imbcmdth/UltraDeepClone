@@ -19,11 +19,11 @@
 		var primitiveCloner  = makeCloner(clonePrimitive);
 
 		var cloneFunctions = {
-			"[object Null]" : primitiveCloner ,
-			"[object Undefined]" : primitiveCloner ,
-			"[object Number]" : primitiveCloner ,
-			"[object String]" : primitiveCloner ,
-			"[object Boolean]" : primitiveCloner ,
+			"[object Null]" : primitiveCloner,
+			"[object Undefined]" : primitiveCloner,
+			"[object Number]" : primitiveCloner,
+			"[object String]" : primitiveCloner,
+			"[object Boolean]" : primitiveCloner,
 			"[object RegExp]" : makeCloner(cloneRegExp),
 			"[object Date]" : makeCloner(cloneDate),
 			"[object Function]" : makeRecursiveCloner(makeCloner(cloneFunction), functionPropertyFilter),
@@ -73,20 +73,21 @@
 			return function(thing, thingStack, copyStack) {
 				var clone = this;
 
-				return Object.getOwnPropertyNames(thing).filter(function(prop){
-					return !propertyFilter || propertyFilter.indexOf(prop) === -1;
-				}).
-				reduce(function(copy, prop) {
-					var thingOffset = thingStack.indexOf(thing[prop]);
+				return Object.getOwnPropertyNames(thing)
+					.filter(function(prop){
+						return !propertyFilter || propertyFilter.indexOf(prop) === -1;
+					})
+					.reduce(function(copy, prop) {
+						var thingOffset = thingStack.indexOf(thing[prop]);
 
-					if (thingOffset === -1) {
-						copy[prop] = clone(thing[prop]);
-					} else {
-						copy[prop] = copyStack[thingOffset];
-					}
+						if (thingOffset === -1) {
+							copy[prop] = clone(thing[prop]);
+						} else {
+							copy[prop] = copyStack[thingOffset];
+						}
 
-					return copy;
-				}, cloneThing(thing, thingStack, copyStack));
+						return copy;
+					}, cloneThing(thing, thingStack, copyStack));
 			};
 		}
 

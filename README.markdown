@@ -6,7 +6,7 @@ Features:
 
 * Clones (almost\*) everything: *functions*, *objects*, *arrays*, *regexp*, *dates*, *numbers*, *strings*, *booleans*, and even *null* and *undefined*!
 
-* Handles cycles - objects that contain references to themselves or a parent object.
+* Handles cycles or circular references - objects that contain references to themselves or a parent object.
 
 ## Installation
 
