@@ -1,0 +1,33 @@
+{
+  "name": "UltraDeepClone",
+  "version": "0.0.1",
+  "description": "Complete (as possible) deep clone algorithm that can clone objects with cycles.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/imbcmdth/UltraDeepClone.git"
+  },
+  "keywords": [
+    "clone",
+    "cycles",
+    "deepclone",
+    "deep-clone",
+    "ultra",
+    "deep"
+  ],
+  "devDependencies": {
+    "vows": "0.7.x"
+  },
+  "author": {
+    "name": "Jon-Carlos Rivera",
+    "email": "jon.carlos.rivera@gmail.com",
+    "url": "http://jon-carlos.com"
+  },
+  "scripts": {
+    "test": "vows"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.6.x"
+  }
+}
