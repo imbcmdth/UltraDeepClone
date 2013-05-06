@@ -46,10 +46,6 @@ vows.describe('Deep Clone').addBatch({
 		topic: function(){ return deepCopy(testNumber); },
 		'Correct Value' : function (clone) {
 			assert.equal (clone, testNumber);
-		},
-		'Changes Independently' : function (clone) {
-			clone = 0;
-			assert.equal (testNumber, 12345);
 		}
 	},
 	'String': {
@@ -74,6 +70,12 @@ vows.describe('Deep Clone').addBatch({
 		topic: function(){ return deepCopy(testArray); },
 		'Correct Value' : function (clone) {
 			assert.deepEqual (clone, testArray);
+		},
+		'Changes Independently' : function (clone) {
+			clone[0] = 'something';
+			clone[1] = 'different';
+			assert.equal (testArray[0], "foo");
+			assert.equal (testArray[1], "bar");
 		}
 	},
 	'Function': {
@@ -86,6 +88,10 @@ vows.describe('Deep Clone').addBatch({
 		topic: function(){ return deepCopy(testObject); },
 		'Correct Value' : function (clone) {
 			assert.deepEqual (clone, testObject);
+		},
+		'Changes Independently' : function (clone) {
+			clone.foo = 'different';
+			assert.equal (testObject.foo, "test_foo");
 		}
 	},
 	'Complex Object': {
