@@ -29,7 +29,7 @@ var UltraDeepClone = require('udc');
 For the *browser*, add the following to your pages:
 
 ````html
-<script src="udc/index.js"></script>
+<script src="udc.js"></script>
 ````
 
 And the global function `UltraDeepClone` will be available.
