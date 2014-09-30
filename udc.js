@@ -14,9 +14,22 @@
 			"caller",
 			"arguments"
 		];
+
+		// Node.js has a lot of silly properties on their "TypedArray" implementation
+		var typedArrayPropertyFilter = [
+			'BYTES_PER_ELEMENT',
+			'get',
+			'set',
+			'slice',
+			'subarray',
+			'buffer',
+			'length',
+			'byteOffset',
+			'byteLength'
 		];
 
 		var primitiveCloner  = makeCloner(clonePrimitive);
+		var typedArrayCloner = makeRecursiveCloner(makeCloner(cloneTypedArray), typedArrayPropertyFilter);
 
 		var cloneFunctions = {
 			"[object Null]" : primitiveCloner,
@@ -28,7 +41,16 @@
 			"[object Date]" : makeCloner(cloneDate),
 			"[object Function]" : makeRecursiveCloner(makeCloner(cloneFunction), functionPropertyFilter),
 			"[object Object]" : makeRecursiveCloner(makeCloner(cloneObject)),
-			"[object Array]" : makeRecursiveCloner(makeCloner(cloneArray))
+			"[object Array]" : makeRecursiveCloner(makeCloner(cloneArray)),
+			"[object Int8Array]" : typedArrayCloner,
+			"[object Uint8Array]" : typedArrayCloner,
+			"[object Uint8ClampedArray]" : typedArrayCloner,
+			"[object Int16Array]" : typedArrayCloner,
+			"[object Uint16Array]" : typedArrayCloner,
+			"[object Int32Array]" : typedArrayCloner,
+			"[object Uint32Array]" : typedArrayCloner,
+			"[object Float32Array]" : typedArrayCloner,
+			"[object Float64Array]" :typedArrayCloner
 		};
 
 		function makeArguments (numberOfArgs) {
@@ -86,7 +108,12 @@
 			return [];
 		}
 
-		function makeRecursiveCloner(cloneThing, propertyFilter) {
+		function cloneTypedArray (typedArray) {
+			var len = typedArray.length;
+			return new typedArray.constructor(len);
+		}
+
+		function makeRecursiveCloner (cloneThing, propertyFilter) {
 			return function(thing, thingStack, copyStack) {
 				var clone = this;
 
