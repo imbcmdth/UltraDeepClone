@@ -4,7 +4,7 @@ The last deep-clone implementation you will *ever* need!
 
 Features:
 
-* Clones (almost\*) everything: *functions*, *objects*, *arrays*, *regexp*, *dates*, *numbers*, *strings*, *booleans*, and even *null* and *undefined*!
+* Clones (almost\*) everything: *functions*, *objects*, *arrays*, *regexp*, *dates*, *numbers*, *strings*, *booleans*, *typed arrays*, and even *null* and *undefined*!
 
 * Handles cycles or circular references - objects that contain references to themselves or a parent object.
 
