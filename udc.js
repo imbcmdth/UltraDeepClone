@@ -15,7 +15,7 @@
 			"arguments"
 		];
 
-		// Node.js has a lot of silly properties on their "TypedArray" implementation
+		// Node.js has a lot of silly enumeral properties on its "TypedArray" implementation
 		var typedArrayPropertyFilter = [
 			'BYTES_PER_ELEMENT',
 			'get',
@@ -31,27 +31,30 @@
 		var primitiveCloner  = makeCloner(clonePrimitive);
 		var typedArrayCloner = makeRecursiveCloner(makeCloner(cloneTypedArray), typedArrayPropertyFilter);
 
-		var cloneFunctions = {
-			"[object Null]" : primitiveCloner,
-			"[object Undefined]" : primitiveCloner,
-			"[object Number]" : primitiveCloner,
-			"[object String]" : primitiveCloner,
-			"[object Boolean]" : primitiveCloner,
-			"[object RegExp]" : makeCloner(cloneRegExp),
-			"[object Date]" : makeCloner(cloneDate),
-			"[object Function]" : makeRecursiveCloner(makeCloner(cloneFunction), functionPropertyFilter),
-			"[object Object]" : makeRecursiveCloner(makeCloner(cloneObject)),
-			"[object Array]" : makeRecursiveCloner(makeCloner(cloneArray)),
-			"[object Int8Array]" : typedArrayCloner,
-			"[object Uint8Array]" : typedArrayCloner,
-			"[object Uint8ClampedArray]" : typedArrayCloner,
-			"[object Int16Array]" : typedArrayCloner,
-			"[object Uint16Array]" : typedArrayCloner,
-			"[object Int32Array]" : typedArrayCloner,
-			"[object Uint32Array]" : typedArrayCloner,
-			"[object Float32Array]" : typedArrayCloner,
-			"[object Float64Array]" :typedArrayCloner
-		};
+		function typeString (type) {
+			return '[object ' + type + ']';
+		}
+
+		var cloneFunctions = {};
+
+		cloneFunctions[typeString('RegExp')] = makeCloner(cloneRegExp);
+		cloneFunctions[typeString('Date')] = makeCloner(cloneDate);
+		cloneFunctions[typeString('Function')] = makeRecursiveCloner(makeCloner(cloneFunction), functionPropertyFilter);
+		cloneFunctions[typeString('Object')] = makeRecursiveCloner(makeCloner(cloneObject));
+		cloneFunctions[typeString('Array')] = makeRecursiveCloner(makeCloner(cloneArray));
+
+		['Null', 'Undefined', 'Number', 'String', 'Boolean']
+			.map(typeString)
+			.forEach(function (type) {
+				cloneFunctions[type] = primitiveCloner;
+			});
+
+		['Int8Array', 'Uint8Array', 'Uint8ClampedArray', 'Int16Array', 'Uint16Array',
+		 'Int32Array', 'Uint32Array', 'Float32Array', 'Float64Array']
+			.map(typeString)
+			.forEach(function (type) {
+				cloneFunctions[type] = typedArrayCloner;
+			});
 
 		function makeArguments (numberOfArgs) {
 			var letters = [];
