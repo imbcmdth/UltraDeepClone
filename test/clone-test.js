@@ -15,6 +15,10 @@ var testRegExp = /./g;
 var testBoolean = true;
 var testFunction = function _test() { return "test"; };
 var testObject = { foo: "test_foo" };
+var testTypedArray = new Int32Array(3);
+testTypedArray[0] = 6;
+testTypedArray[1] = 3;
+testTypedArray[2] = -99;
 
 var testComplexObject = {
 	number : testNumber,
@@ -30,7 +34,8 @@ var testComplexObject = {
 	object : testObject,
 	array : testArray,
 	cycles : {},
-	cycles2 :{}
+	cycles2 :{},
+	typedArray: testTypedArray
 };
 
 //add some cycles
@@ -82,6 +87,16 @@ vows.describe('Deep Clone').addBatch({
 		topic: function(){ return deepCopy(testFunction); },
 		'Correct Value' : function (clone) {
 			assert.equal (clone(), testFunction());
+		}
+	},
+	'Typed Array': {
+		topic: function(){ return deepCopy(testTypedArray); },
+		'Correct Value' : function (clone) {
+			assert.deepEqual (clone, testTypedArray);
+		},
+		'Changes Independently' : function (clone) {
+			clone[0] = 0;
+			assert.equal (testTypedArray[0], 6);
 		}
 	},
 	'Simple Object': {
@@ -165,6 +180,11 @@ vows.describe('Deep Clone').addBatch({
 		'cycles' : function(clone) {
 			assert.equal (clone.cycles2.other, clone.cycles);
 			assert.equal (clone, clone.cycles.parent);
+		},
+		'typed array' : function (clone) {
+			assert.deepEqual (clone.typedArray, testTypedArray);
+			clone.typedArray[0] = 0;
+			assert.equal (testTypedArray[0], 6);
 		}
 	}
 }).export(module);
