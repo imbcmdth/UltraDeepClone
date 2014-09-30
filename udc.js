@@ -31,7 +31,7 @@
 			"[object Array]" : makeRecursiveCloner(makeCloner(cloneArray))
 		};
 
-		function makeCloner(cloneThing) {
+		function makeCloner (cloneThing) {
 			return function(thing, thingStack, copyStack) {
 				thingStack.push(thing);
 				var copy = cloneThing(thing);
@@ -40,32 +40,32 @@
 			};
 		}
 
-		function clonePrimitive(primitive) {
+		function clonePrimitive (primitive) {
 			return primitive;
 		}
 
-		function cloneRegExp(regexp) {
+		function cloneRegExp (regexp) {
 			return new RegExp(regexp);
 		}
 
-		function cloneDate(date) {
+		function cloneDate (date) {
 			return new Date(date.getTime());
 		}
 
-		function cloneFunction(fn) {
 			var copy = Function("return " + fn.toString() + ";")();
 			copy.prototype = Object.getPrototypeOf(fn);
 			return copy;
+		function cloneFunction (fn) {
 		}
 
 		// This will not properly clone `constructed` objects because
 		// it is impossible to know with what arguments the constructor
 		// was originally invoked.
-		function cloneObject(object) {
+		function cloneObject (object) {
 			return Object.create(Object.getPrototypeOf(object));
 		}
 
-		function cloneArray(array) {
+		function cloneArray (array) {
 			return [];
 		}
 
@@ -91,15 +91,15 @@
 			};
 		}
 
-		return function _ultraDeepClone(source) {
+		return function _ultraDeepClone (source) {
 
-			var thingStack = [],
-				copyStack = [];
+			var thingStack = [];
+			var copyStack = [];
 
-			function clone(thing){
+			function clone (thing) {
 				var typeOfThing = Object.prototype.toString.call(thing);
 				return cloneFunctions[typeOfThing].call(clone, thing, thingStack, copyStack);
-			}
+			};
 
 			return clone(source);
 		};
