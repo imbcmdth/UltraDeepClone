@@ -12,8 +12,8 @@
 
 		var functionPropertyFilter = [
 			"caller",
-			"arguments",
-			"prototype"
+			"arguments"
+		];
 		];
 
 		var primitiveCloner  = makeCloner(clonePrimitive);
@@ -30,6 +30,23 @@
 			"[object Object]" : makeRecursiveCloner(makeCloner(cloneObject)),
 			"[object Array]" : makeRecursiveCloner(makeCloner(cloneArray))
 		};
+
+		function makeArguments (numberOfArgs) {
+			var letters = [];
+			for ( var i = 1; i <= numberOfArgs; i++ ) letters.push("arg" + i);
+			return letters;
+		}
+
+		function wrapFunctionWithArity (callback) {
+			var argList = makeArguments(callback.length);
+			var functionCode = 'return false || function ';
+			functionCode += callback.name + '(';
+			functionCode += argList.join(', ') + ') {\n';
+			functionCode += 'return fn.apply(this, arguments);\n';
+			functionCode += '};'
+
+			return Function("fn", functionCode)(callback);
+		}
 
 		function makeCloner (cloneThing) {
 			return function(thing, thingStack, copyStack) {
@@ -52,10 +69,10 @@
 			return new Date(date.getTime());
 		}
 
-			var copy = Function("return " + fn.toString() + ";")();
-			copy.prototype = Object.getPrototypeOf(fn);
-			return copy;
+		// We can't really clone functions but we can wrap them in a new function that will
+		// recieve clones of any properties the original function may have had
 		function cloneFunction (fn) {
+			return wrapFunctionWithArity(fn);
 		}
 
 		// This will not properly clone `constructed` objects because
