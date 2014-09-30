@@ -10,11 +10,11 @@ var testTimestamp = Date.now();
 var testDate = new Date(testTimestamp);
 var testNumber = 12345;
 var testString = "12345";
-var testArray = ["foo", "bar" ];
+var testArray = ["foo", "bar"];
 var testRegExp = /./g;
 var testBoolean = true;
 var testFunction = function _test() { return "test"; };
-var testObject = { foo:"test_foo" };
+var testObject = { foo: "test_foo" };
 
 var testComplexObject = {
 	number : testNumber,
