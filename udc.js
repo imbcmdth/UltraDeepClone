@@ -15,7 +15,7 @@
 			"arguments"
 		];
 
-		// Node.js has a lot of silly enumeral properties on its "TypedArray" implementation
+		// Node.js has a lot of silly enumerable properties on its "TypedArray" implementation
 		var typedArrayPropertyFilter = [
 			'BYTES_PER_ELEMENT',
 			'get',
