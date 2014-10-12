@@ -10,6 +10,13 @@
 		}
 	}(this, function () {
 
+		var getPropertyNames = Object.getOwnPropertyNames || require("lodash.keys");
+		var indexOf = require("lodash.indexof");
+		var reduce = require("lodash.reduce");
+		var filter = require("lodash.filter");
+		var create = require("lodash.create");
+		var getPrototypeOf = require("getprototypeof");
+
 		var functionPropertyFilter = [
 			"caller",
 			"arguments"
@@ -43,18 +50,30 @@
 		cloneFunctions[typeString('Object')] = makeRecursiveCloner(makeCloner(cloneObject));
 		cloneFunctions[typeString('Array')] = makeRecursiveCloner(makeCloner(cloneArray));
 
-		['Null', 'Undefined', 'Number', 'String', 'Boolean']
-			.map(typeString)
-			.forEach(function (type) {
-				cloneFunctions[type] = primitiveCloner;
-			});
+		var forEach = require("foreach");
+		var map = require("lodash.map");
 
-		['Int8Array', 'Uint8Array', 'Uint8ClampedArray', 'Int16Array', 'Uint16Array',
-		 'Int32Array', 'Uint32Array', 'Float32Array', 'Float64Array']
-			.map(typeString)
-			.forEach(function (type) {
+		forEach(
+			map (
+				['Null', 'Undefined', 'Number', 'String', 'Boolean'],
+				typeString
+			),
+			function (type) {
+				cloneFunctions[type] = primitiveCloner;
+			}
+        );
+
+		forEach(
+			map (
+				['Int8Array', 'Uint8Array', 'Uint8ClampedArray', 'Int16Array',
+				 'Uint16Array', 'Int32Array', 'Uint32Array', 'Float32Array',
+				 'Float64Array'],
+				typeString
+			),
+			function (type) {
 				cloneFunctions[type] = typedArrayCloner;
-			});
+			}
+        );
 
 		function makeArguments (numberOfArgs) {
 			var letters = [];
@@ -104,7 +123,7 @@
 		// it is impossible to know with what arguments the constructor
 		// was originally invoked.
 		function cloneObject (object) {
-			return Object.create(Object.getPrototypeOf(object));
+			return create(getPrototypeOf(object));
 		}
 
 		function cloneArray (array) {
@@ -120,12 +139,15 @@
 			return function(thing, thingStack, copyStack) {
 				var clone = this;
 
-				return Object.getOwnPropertyNames(thing)
-					.filter(function(prop){
-						return !propertyFilter || propertyFilter.indexOf(prop) === -1;
-					})
-					.reduce(function(copy, prop) {
-						var thingOffset = thingStack.indexOf(thing[prop]);
+				return reduce(
+					filter(
+						getPropertyNames(thing),
+						function(prop){
+							return !propertyFilter || indexOf(propertyFilter, prop) === -1;
+						}
+					),
+					function(copy, prop) {
+						var thingOffset = indexOf(thingStack, thing[prop]);
 
 						if (thingOffset === -1) {
 							copy[prop] = clone(thing[prop]);
@@ -134,7 +156,8 @@
 						}
 
 						return copy;
-					}, cloneThing(thing, thingStack, copyStack));
+					}, cloneThing(thing, thingStack, copyStack)
+				);
 			};
 		}
 
