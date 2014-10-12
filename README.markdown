@@ -50,11 +50,15 @@ require(["udc"], function(UltraDeepClone) {
 var newObject = UltraDeepClone(oldObject); 
 ````
 
-## \*Note
+## \*Notes
 
 This will **not** clone *constructed* objects properly. An object built with a constructor function can have hidden state (within the closure) that simply can not be recovered. Also since the value of the arguments passed to the constructor can not be recovered, we can't reconstruct a similar object.
 
 Therefore, objects built using a constructor function will be cloned as well as possible and will have the same properties but they will probably **not** work correctly!
+
+Where `Object.getOwnPropertyNames` is not available (IE < 9, for example), [`_.keys`](https://lodash.com/docs#keys) is used.
+
+Where `Object.getPrototypeOf` is not available (IE < 9, for example), [`mightyiam/getprototypeof`](https://github.com/mightyiam/getprototypeof) is used.
 
 ## License - MIT
 
